@@ -110,7 +110,7 @@ void printLinkedList()
 void loadData()//接收返回值，加载数据
 {
 	FILE* fp=fopen("D:/atm.txt","r");
-	if(fp!=NULL)
+	if(fp==NULL)
 	{
 		while(!feof(fp))
 		{
