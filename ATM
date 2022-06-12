@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 struct Account
 {
 	char name[100];
@@ -14,8 +15,142 @@ typedef struct Account Account;
 int language;//1-中文,2-English
 Account* head=NULL;//指向头结点的指针
 Account* tail=NULL;//指向尾结点的指针
+Account *curAccount=NULL;
+int findAccount(Account a)
+{
+	Account *curp=head;
+	while(curp!=NULL)
+	{
+		if((strcmp(curp->username,a.username)==0)&&(strcmp(curp->password,a.password)==0))
+		{
+			curAccount=curp;
+			return 1; 
+		}
+		curp=curp->next;
+	}
+	return 0;
+}
+
+void updataPassword()//有问题 
+{
+	if(language==1)
+	{
+		printf("请输入旧密码:");
+	    char oldpassword[100];
+	    scanf("%s",oldpassword);
+	    if(strcmp(oldpassword,curAccount->password)==0)
+	    {
+		    printf("请输入新密码:");
+		    scanf("%s",curAccount->password);
+		    if(strcmp(curAccount->password,oldpassword)==0)
+		    {
+			    for(int i=0;i<3;i++)
+			    {
+				    printf("新密码与旧密码相同，请重新输入:");
+			        scanf("%s",curAccount->password);
+			        if(strcmp(curAccount->password,oldpassword)!=0)
+			        {
+			    	    printf("修改成功!");
+			    	    break;
+				    }
+			    
+			    }
+			
+		    }
+		    else
+		    {
+			    printf("修改成功!\n");
+		    }
+	    }
+	    else
+	    {
+		    printf("密码错误，不能修改!\n");
+	    }
+	}
+	else if(language==2)
+	{
+		printf("enter your old code:");
+	    char oldpassword[100];
+	    scanf("%s",oldpassword);
+	    if(strcmp(oldpassword,curAccount->password)==0)
+	    {
+		    printf("enter your new code:");
+		    scanf("%s",curAccount->password);
+		    if(strcmp(curAccount->password,oldpassword)==0)
+		    {
+			    for(int i=0;i<3;i++)
+			    {
+				    printf("the new code is the same as the old code,re-enter:");
+			        scanf("%s",curAccount->password);
+			        if(strcmp(curAccount->password,oldpassword)!=0)
+			        {
+			    	    printf("modified successfully!");
+				    }
+				    else
+				    {
+					    printf("modification failed!\n");
+				    }
+			    
+			    }
+			
+		    }
+		    else
+		    {
+			    printf("modified successfully!\n");
+		    }
+	    }
+	    else
+	    {
+		    printf("the code is incorrect and cannot be modified!\n");
+	    }
+	}
+	
+}
+ 
 void signIn()//登录
 {
+	if(language==1)
+	{
+		for(int i=0;i<3;i++)
+	    {
+		    Account a;
+		    printf("请输入账号:");
+		    scanf("%s",a.username);
+		    printf("请输入密码:");
+		    scanf("%s",a.password);
+		    if(findAccount(a))
+		    {
+		    	printf("登陆成功!\n");
+			    updataPassword();
+			    break;
+		    }
+		    else
+		    {
+			    printf("登陆失败!\n");
+		    }
+	    }
+	}
+	else if(language==2)
+	{
+		for(int i=0;i<3;i++)
+	    {
+		    Account a;
+		    printf("enter your username:");
+		    scanf("%s",a.username);
+		    printf("enter your code:");
+		    scanf("%s",a.password);
+		    if(findAccount(a))
+		    {
+		    	printf("login successful!\n");
+			    updataPassword();
+			    break;
+		    }
+		    else
+		    {
+			    printf("login failed!\n");
+		    }
+	    }
+	}
 	
 }
 
@@ -157,10 +292,15 @@ int main()
 	printf("中文服务，请按1\n");
 	printf("English Service,press 2\n");
 	scanf("%d",&language);
+	
 	showMenu();
+	
 	loadData();
+	
 	printLinkedList();
+	
 	saveData();
+	
 	return 0;
 }
  
