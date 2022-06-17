@@ -395,6 +395,56 @@ void transfer()
 	}
 }
 
+void display()//查询账户信息 
+{
+	if(language==1)
+	{
+		FILE *fp=fopen("D:/atm.txt","r");
+	    Account* curP=head;
+	    char zh[9];
+	    printf("请输入你的银行账号：");
+	    scanf("%s",&zh);
+	    printf("您的个人信息如下：\n");
+	    if(strcmp(zh,curAccount->username)==0)
+	    {
+		    while(curP!=NULL)
+		    {
+			    printf("姓名：%s\t账号：%s\t身份证：%s\t电话：%s\t余额：%lf\n",curAccount->name,curAccount->username,curAccount->idCard,curAccount->tel,curAccount->money);
+			    curP=curP->next;
+			    break;
+		    }
+	    }
+        else
+        {
+       	    printf("此账户不存在！！！\n");
+	    }
+        fclose(fp);	
+	}
+	else if(language==2)
+	{
+		FILE *fp=fopen("D:/atm.txt","r");
+	    Account* curP=head;
+	    char zh[9];
+	    printf("enter your username:");
+	    scanf("%s",&zh);
+	    printf("your user information is as follows：\n");
+	    if(strcmp(zh,curAccount->username)==0)
+	    {
+		    while(curP!=NULL)
+		    {
+			    printf("name：%s\tusername：%s\tIDcard：%s\ttel：%s\tbalance：%lf\n",curAccount->name,curAccount->username,curAccount->idCard,curAccount->tel,curAccount->money);
+			    curP=curP->next;
+			    break;
+		    }
+	    }
+        else
+        {
+       	    printf("the user dose not exist！！！\n");
+	    }
+        fclose(fp);	
+	}
+}
+
 void showMenu()
 {
 	while(1)
@@ -407,8 +457,9 @@ void showMenu()
 			printf("修改密码，请按3\n");
 			printf("取款，请按4\n");
 			printf("存款，请按5\n");
-			printf("转账，请按6\n"); 
-			printf("退出，请按7\n");
+			printf("转账，请按6\n");
+			printf("查询，请按7\n");
+			printf("退出，请按8\n");
 		}
 		else if(language==2)
 		{
@@ -419,8 +470,8 @@ void showMenu()
 			printf("draw money,press 4\n");
 			printf("save money,press 5\n");
 			printf("transfer accounts,press 6\n");
-			printf("sign out,press 7\n");
-			system("pause");
+			printf("find,press 7\n");
+			printf("sign out,press 8\n");
 		}
 		int n;
 		scanf("%d",&n);
@@ -465,6 +516,13 @@ void showMenu()
 			system("pause");
 		} 
 		else if(n==7)
+		{
+			system("cls");
+			signIn();
+			display();
+			system("pause");
+		} 
+		else if(n==8)
 		{
 			system("cls");
 		 	return;
@@ -531,12 +589,14 @@ void saveData()
 int main()
 {
 	loadData();//加载账户信息 
+	printf("************\n");
+	printf("欢迎来到ATM\n");
+	printf("************\n");
 	printf("中文服务，请按1\n");
 	printf("English Service,press 2\n");
 	scanf("%d",&language);
 	
 	showMenu();
-	
 	printLinkedList();
 	saveData();
 	
